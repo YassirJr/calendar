@@ -1,9 +1,10 @@
 import {Button} from "@/components/ui/button"
-import {Calendar, LayoutGrid, List, MonitorPlay} from "lucide-react"
+import {Calendar} from "lucide-react"
 import {DateSwitcher} from "@/components/calendar/date-switcher"
 import {TimeMode} from "@/components/calendar/time-mode";
 import {ColorFilter} from "@/components/calendar/color-filter";
 import {useCalendar} from "@/hooks/use-calendar";
+import { ViewMode } from "@/components/calendar/view-mode";
 
 
 export function CalendarNav() {
@@ -24,9 +25,7 @@ export function CalendarNav() {
                     <Calendar className="h-4 w-4"/>
                     This Month
                 </Button>
-
-
-
+                <ViewMode/>
                 <Button className="gap-2">Add Event</Button>
             </div>
         </div>
