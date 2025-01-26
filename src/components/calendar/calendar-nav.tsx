@@ -4,7 +4,8 @@ import {DateSwitcher} from "@/components/calendar/date-switcher"
 import {TimeMode} from "@/components/calendar/time-mode";
 import {ColorFilter} from "@/components/calendar/color-filter";
 import {useCalendar} from "@/hooks/use-calendar";
-import { ViewMode } from "@/components/calendar/view-mode";
+import { ViewMode } from "@/components/calendar/views/view-mode";
+import {AddEventDialog} from "@/components/forms/add-event";
 
 
 export function CalendarNav() {
@@ -26,7 +27,7 @@ export function CalendarNav() {
                     This Month
                 </Button>
                 <ViewMode/>
-                <Button className="gap-2">Add Event</Button>
+                <AddEventDialog/>
             </div>
         </div>
     )

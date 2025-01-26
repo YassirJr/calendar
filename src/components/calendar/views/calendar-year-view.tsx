@@ -1,14 +1,14 @@
-import {useCalendar} from "@/hooks/use-calendar";
-import {format, setMonth} from "date-fns";
-import {useMemo} from "react";
-import {generateWeekdays, getDaysInMonth} from "@/lib/utils";
-import {MonthCardForYearView} from "@/components/calendar/month-card-for-year-view";
+import { useCalendar } from "@/hooks/use-calendar";
+import { format, setMonth } from "date-fns";
+import { useMemo } from "react";
+import { generateWeekdays, getDaysInMonth } from "@/lib/utils";
+import { MonthCardForYearView } from "@/components/calendar/month-card-for-year-view";
 
 export const CalendarYearView = () => {
-    const {date, locale, today} = useCalendar();
+    const { date, locale, today } = useCalendar();
 
     const months = useMemo(() => {
-        return Array.from({length: 12}).map((_, i) => {
+        return Array.from({ length: 12 }).map((_, i) => {
             return getDaysInMonth(setMonth(date, i));
         });
     }, [date]);
@@ -16,7 +16,7 @@ export const CalendarYearView = () => {
     const weekDays = useMemo(() => generateWeekdays(locale), [locale]);
 
     return (
-        <div className="p-4 grid grid-cols-4 gap-10 overflow-auto h-full">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10 overflow-auto h-full">
             {months.map((days, i) => (
                 <div key={days[0].toString()}>
                     <span className="text-xl">{format(setMonth(date, i), 'MMMM')} </span>
@@ -32,7 +32,7 @@ export const CalendarYearView = () => {
                         ))}
                     </div>
 
-                    <MonthCardForYearView days={days} index={i} today={today}/>
+                    <MonthCardForYearView days={days} index={i} today={today} />
                 </div>
             ))}
         </div>
