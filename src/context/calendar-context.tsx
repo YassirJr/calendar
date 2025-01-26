@@ -3,6 +3,7 @@
 import React, {createContext, useState} from 'react';
 import {getMonth, getDay, getYear, getHours, Locale} from "date-fns";
 import {enUS} from "date-fns/locale/en-US";
+import {EventFormValues} from "@/lib/zod/form";
 
 export type ViewMode = 'day' | 'week' | 'month' | 'year';
 export type TimeMode = 'am' | 'pm';
@@ -14,15 +15,6 @@ export interface Color {
     value: string
 }
 
-export interface Event {
-    id: string
-    title: string
-    description: string
-    start: Date
-    end?: Date
-    repeat?: boolean
-    color: Color
-}
 
 interface CalendarContextProps {
     date: Date,
@@ -33,10 +25,10 @@ interface CalendarContextProps {
     year: number | null,
     locale: Locale,
     setDate: (date: Date) => void,
-    events: Event[],
-    addEvent: (event: Event) => void,
+    events: EventFormValues[],
+    addEvent: (event: EventFormValues) => void,
     deleteEvent: (eventId: string) => void,
-    updateEvent: (event: Event) => void,
+    updateEvent: (event: EventFormValues) => void,
     resetEvents: () => void,
     viewMode: ViewMode,
     setViewMode: (view: ViewMode) => void,
@@ -50,8 +42,8 @@ interface CalendarContextProps {
 }
 
 const colors: Color[] = [
-    {id: "red", name: "Red", value: "bg-red-500"},
     {id: "blue", name: "Blue", value: "bg-blue-500"},
+    {id: "red", name: "Red", value: "bg-red-500"},
     {id: "green", name: "Green", value: "bg-green-500"},
     {id: "yellow", name: "Yellow", value: "bg-yellow-500"},
     {id: "purple", name: "Purple", value: "bg-purple-500"},
@@ -98,7 +90,7 @@ export const CalendarStateContext = createContext<CalendarContextProps>(
 
 export default function CalendarContext({children}: { children: React.ReactNode }) {
     const [date, setDate] = useState(new Date());
-    const [events, setEvents] = useState<Event[]>([])
+    const [events, setEvents] = useState<EventFormValues[]>([])
     const [viewMode, setViewMode] = useState<ViewMode>('day')
     const [timeMode, setTimeMode] = useState<TimeMode>('am')
     const [selectedColors, _setSelectedColors] = useState<string[]>([])
@@ -108,7 +100,7 @@ export default function CalendarContext({children}: { children: React.ReactNode 
     const month = getMonth(date) + 1
     const year = getYear(date)
 
-    const addEvent = (event: Event) => {
+    const addEvent = (event: EventFormValues) => {
         setEvents((prev) => [...prev, event])
     }
 
@@ -116,7 +108,7 @@ export default function CalendarContext({children}: { children: React.ReactNode 
         setEvents((prev) => prev.filter((event) => event.id !== eventId))
     }
 
-    const updateEvent = (updatedEvent: Event) => {
+    const updateEvent = (updatedEvent: EventFormValues) => {
         setEvents((prev) => prev.map((event) => {
             if (event.id === updatedEvent.id) {
                 return updatedEvent
