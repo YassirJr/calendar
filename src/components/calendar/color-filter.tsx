@@ -8,6 +8,7 @@ import { useCalendar } from "@/hooks/use-calendar";
 import { Color } from "@/context/calendar-context";
 import { cn } from "@/lib/utils";
 
+
 export function ColorFilter() {
     const { colors, selectedColors, setSelectedColors, resetSelectedColors } = useCalendar();
 
