@@ -1,21 +1,20 @@
 import {differenceInMinutes, isSameHour} from 'date-fns';
 import {cn} from "@/lib/utils";
-import {Event} from "@/context/calendar-context";
-
+import {EventFormValues} from "@/lib/zod/form";
 export const EventGroup = ({
                                events,
                                hour,
                            }: {
-    events: Event[];
+    events: EventFormValues[];
     hour: Date;
 }) => {
     return (
         <div className="h-20 border-t last:border-b">
             {events
-                .filter((event) => isSameHour(event.start, hour) && !event.repeat)
+                .filter((event) => isSameHour(event.startDate, hour))
                 .map((event) => {
-                    const hoursDifference = differenceInMinutes(event.end!, event.start) / 60;
-                    const startPosition = event.start.getMinutes() / 60;
+                    const hoursDifference = differenceInMinutes(event.endDate!, event.startDate) / 60;
+                    const startPosition = event.startDate.getMinutes() / 60;
 
                     return (
                         <div
