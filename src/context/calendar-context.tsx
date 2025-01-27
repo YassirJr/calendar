@@ -29,6 +29,7 @@ interface CalendarContextProps {
     addEvent: (event: EventFormValues) => void,
     deleteEvent: (eventId: string) => void,
     updateEvent: (event: EventFormValues) => void,
+    updateEventDate: (eventId: string, newDate: Date) => void,
     resetEvents: () => void,
     viewMode: ViewMode,
     setViewMode: (view: ViewMode) => void,
@@ -51,6 +52,7 @@ const colors: Color[] = [
     {id: "indigo", name: "Indigo", value: "bg-indigo-500"},
 ]
 
+
 export const CalendarStateContext = createContext<CalendarContextProps>(
     {
         date: new Date(),
@@ -68,6 +70,8 @@ export const CalendarStateContext = createContext<CalendarContextProps>(
         deleteEvent: () => {
         },
         updateEvent: () => {
+        },
+        updateEventDate: () => {
         },
         resetEvents: () => {
         },
@@ -140,6 +144,29 @@ export default function CalendarContext({children}: { children: React.ReactNode 
         _setSelectedColors([])
     }
 
+    const updateEventDate = (eventId: string, newDate: Date) => {
+        setEvents((prev) =>
+            prev.map((event) => {
+                if (event.id === eventId) {
+                    const oldDate = event.startDate;
+                    return {
+                        ...event,
+                        startDate: new Date(
+                            newDate.getFullYear(),
+                            newDate.getMonth(),
+                            newDate.getDate(),
+                            oldDate.getHours(),
+                            oldDate.getMinutes(),
+                            oldDate.getSeconds()
+                        ),
+                    };
+                }
+                return event;
+            })
+        );
+    };
+
+
     return (
         <CalendarStateContext.Provider value={{
             date,
@@ -154,6 +181,7 @@ export default function CalendarContext({children}: { children: React.ReactNode 
             addEvent,
             deleteEvent,
             updateEvent,
+            updateEventDate,
             resetEvents,
             viewMode,
             setViewMode,
