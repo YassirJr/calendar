@@ -1,6 +1,9 @@
 import {differenceInMinutes, isSameHour} from 'date-fns';
 import {cn} from "@/lib/utils";
 import {EventFormValues} from "@/lib/zod/form";
+import {EventCard} from "@/components/calendar/event-card";
+
+
 export const EventGroup = ({
                                events,
                                hour,
@@ -9,7 +12,7 @@ export const EventGroup = ({
     hour: Date;
 }) => {
     return (
-        <div className="h-20 border-t last:border-b">
+        <div className="h-20 border-t last:border-b flex justify-start gap-2 mx-5">
             {events
                 .filter((event) => isSameHour(event.startDate, hour))
                 .map((event) => {
@@ -17,17 +20,15 @@ export const EventGroup = ({
                     const startPosition = event.startDate.getMinutes() / 60;
 
                     return (
-                        <div
-                            key={event.id}
-                            className={cn(
-                                'relative',
-                            )}
-                            style={{
-                                top: `${startPosition * 100}%`,
-                                height: `${hoursDifference * 100}%`,
-                            }}
+                        <div style={{
+                            top: `${startPosition * 100}%`,
+                            height: `${hoursDifference * 100}%`,
+                        }}
+                             key={event.id}
                         >
-                            {event.title}
+                            {
+                                <EventCard event={event}/>
+                            }
                         </div>
                     );
                 })}
